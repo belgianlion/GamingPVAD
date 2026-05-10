@@ -1,0 +1,32 @@
+[project]
+name = "gaming-pvad"
+version = "0.1.0"
+description = "Personal VAD virtual microphone — denoise + speaker-gated audio for games"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    # DeepFilterNet 0.5.6 still imports from `torchaudio.backend`, which was
+    # removed in torchaudio 2.1. Pin torch+torchaudio to the 2.0.x line until
+    # upstream releases a compatible version.
+    "torch>=2.0,<2.1",
+    "torchaudio>=2.0,<2.1",
+    "speechbrain>=1.0.0",
+    # speechbrain 1.0.3 still calls hf_hub_download(use_auth_token=...), which
+    # was removed in huggingface_hub 0.24+. Pin to the last compatible release.
+    "huggingface_hub<0.24",
+    "deepfilternet>=0.5.6",
+    "sounddevice>=0.4.6",
+    "scipy>=1.11.0",
+    "numpy>=1.24.0",
+    "psutil>=5.9.0",
+    # SpeechBrain forces torchaudio's "soundfile" backend; torchaudio 2.0 no
+    # longer pulls it in transitively, so we depend on it explicitly.
+    "soundfile>=0.12.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
